@@ -41,4 +41,4 @@ SpigotGuard - Это самый продвинутый плагин для за�
 
 
 
-I not author this plugin.
+I'am not author this plugin.
