@@ -129,6 +129,7 @@ public final class SpigotGuardPlugin extends JavaPlugin
             this.sqlDatabase.close();
             SpigotGuardLogger.log(Level.INFO, "[Database] Saved sql users!", new Object[0]);
         });
+        HandlerList.unregisterAll(this);
     }
     
     public SpigotGuardClassLoaded getSpigotGuardClassLoaded() {
