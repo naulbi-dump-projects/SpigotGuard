@@ -1,30 +1,24 @@
 package xyz.yooniks.spigotguard.network.v1_13_R2;
 
-import org.bukkit.entity.*;
-import org.bukkit.craftbukkit.v1_13_R2.entity.*;
-import xyz.yooniks.spigotguard.user.*;
-import io.netty.channel.*;
-import xyz.yooniks.spigotguard.network.*;
+import io.netty.channel.Channel;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import xyz.yooniks.spigotguard.network.PacketInjector;
+import xyz.yooniks.spigotguard.user.User;
 
-public class PacketInjector_1_13 extends PacketInjector
-{
-    private final Channel channel;
-    
-    public PacketInjector_1_13(final Player player) {
-        super(player);
-        this.channel = ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel;
-    }
-    
-    @Override
-    public void injectListener(final User user) {
-        final PacketDecoder packetDecoder = new PacketDecoder_1_13(this, user);
-        this.channel.pipeline().addAfter("decoder", "SpigotGuard_" + this.player.getName(), (ChannelHandler)packetDecoder);
-    }
-    
-    @Override
-    public void uninjectListener() {
-        if (this.channel.pipeline().get("SpigotGuard_" + this.player.getName()) != null) {
-            this.channel.pipeline().remove("SpigotGuard_" + this.player.getName());
-        }
-    }
+public class PacketInjector_1_13 extends PacketInjector {
+  private final Channel channel;
+  
+  public void uninjectListener() {
+    if (this.channel.pipeline().get("SpigotGuard_" + this.player.getName()) != null);
+  }
+  
+  public PacketInjector_1_13(Player paramPlayer) {
+    super(paramPlayer);
+    this.channel = (((CraftPlayer)paramPlayer).getHandle()).playerConnection.networkManager.channel;
+  }
+  
+  public void injectListener(User paramUser) {
+    PacketDecoder_1_13 packetDecoder_1_13 = new PacketDecoder_1_13(this, paramUser);
+  }
 }

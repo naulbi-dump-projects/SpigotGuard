@@ -1,46 +1,54 @@
 package xyz.yooniks.spigotguard.api.inventory;
 
-import org.bukkit.*;
-import org.bukkit.event.*;
-import org.bukkit.plugin.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
-public class PhasmatosBukkitInventoryAPI implements PhasmatosInventoryAPI
-{
-    private final List<PhasmatosInventory> inventories;
-    
-    public PhasmatosBukkitInventoryAPI() {
-        this.inventories = new ArrayList<PhasmatosInventory>();
+public class PhasmatosBukkitInventoryAPI implements PhasmatosInventoryAPI {
+  private final List inventories = new ArrayList();
+
+  public List getInventories() {
+    return new ArrayList(this.inventories);
+  }
+
+  private static boolean lambda$findByTitle$0(String var0, PhasmatosInventory var1) {
+    return Integer.valueOf(var0.toUpperCase().hashCode()).equals(var1.getTitle().toUpperCase().hashCode());
+  }
+
+  public void register(Plugin var1) {
+    PluginManager var2 = var1.getServer().getPluginManager();
+    String var3 = Bukkit.getServer().getVersion();
+    if (!var3.contains("1.14") && !var3.contains("1.15") && !var3.contains("1.16")) {
+      var2.registerEvents(new PhasmatosInventoryListeners(this), var1);
+    } else {
+      var2.registerEvents(new PhasmatosInventoryListeners_14(this), var1);
     }
-    
-    public void register(final Plugin plugin) {
-        final PluginManager pluginManager = plugin.getServer().getPluginManager();
-        final String version = Bukkit.getServer().getVersion();
-        if (version.contains("1.14") || version.contains("1.15") || version.contains("1.16")) {
-            pluginManager.registerEvents((Listener)new PhasmatosInventoryListeners_14(this), plugin);
-        }
-        else {
-            pluginManager.registerEvents((Listener)new PhasmatosInventoryListeners(this), plugin);
-        }
+
+  }
+
+  public void addInventory(PhasmatosInventory var1) {
+    this.inventories.add(var1);
+  }
+
+  public PhasmatosInventory findByTitle(String var1) {
+    return (PhasmatosInventory)this.inventories.stream().filter(PhasmatosBukkitInventoryAPI::lambda$findByTitle$0).findFirst().orElse((Object)null);
+  }
+
+  public PhasmatosInventory findByTitleAndSize(String var1, int var2) {
+    return (PhasmatosInventory)this.inventories.stream().filter(PhasmatosBukkitInventoryAPI::lambda$findByTitleAndSize$1).findFirst().orElse((Object)null);
+  }
+
+  private static boolean lambda$findByTitleAndSize$1(String var0, int var1, PhasmatosInventory var2) {
+    boolean var10000;
+    if (Integer.valueOf(var0.toUpperCase().hashCode()).equals(var2.getTitle().toUpperCase().hashCode()) && var2.getSize() == var1) {
+      var10000 = true;
+      boolean var10001 = false;
+    } else {
+      var10000 = false;
     }
-    
-    @Override
-    public PhasmatosInventory findByTitle(final String title) {
-        return this.inventories.stream().filter(inventory -> inventory.getTitle().equalsIgnoreCase(title)).findFirst().orElse(null);
-    }
-    
-    @Override
-    public PhasmatosInventory findByTitleAndSize(final String title, final int size) {
-        return this.inventories.stream().filter(inventory -> inventory.getTitle().equalsIgnoreCase(title) && inventory.getSize() == size).findFirst().orElse(null);
-    }
-    
-    @Override
-    public void addInventory(final PhasmatosInventory inventory) {
-        this.inventories.add(inventory);
-    }
-    
-    @Override
-    public List<PhasmatosInventory> getInventories() {
-        return new ArrayList<PhasmatosInventory>(this.inventories);
-    }
+
+    return var10000;
+  }
 }

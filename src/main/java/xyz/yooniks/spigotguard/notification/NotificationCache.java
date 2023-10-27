@@ -1,13 +1,12 @@
 package xyz.yooniks.spigotguard.notification;
 
-import java.util.*;
-import xyz.yooniks.spigotguard.event.*;
+import java.util.UUID;
+import xyz.yooniks.spigotguard.event.ExploitDetails;
 
-public interface NotificationCache
-{
-    ExploitDetails findCache(final UUID p0);
-    
-    void addCache(final UUID p0, final ExploitDetails p1);
-    
-    void removeCache(final UUID p0);
+public interface NotificationCache {
+  ExploitDetails findCache(UUID paramUUID);
+  
+  void removeCache(UUID paramUUID);
+  
+  void addCache(UUID paramUUID, ExploitDetails paramExploitDetails);
 }

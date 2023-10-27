@@ -1,50 +1,50 @@
 package xyz.yooniks.spigotguard.api.inventory;
 
-import org.bukkit.*;
-import org.bukkit.inventory.*;
-import java.util.*;
-import org.bukkit.entity.*;
+import java.util.HashMap;
+import java.util.Map;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
-public class PhasmatosStableInventory implements PhasmatosInventory
-{
-    private final Inventory inventory;
-    private final String name;
-    
-    public PhasmatosStableInventory(final String title, final int size) {
-        this.inventory = Bukkit.createInventory((InventoryHolder)null, size, title);
-        this.name = title;
-    }
-    
-    @Override
-    public PhasmatosInventory addItem(final int slot, final ItemStack item) {
-        this.inventory.setItem(slot, item);
-        return this;
-    }
-    
-    @Override
-    public Map<Integer, ItemStack> getItems() {
-        final Map<Integer, ItemStack> items = new HashMap<Integer, ItemStack>();
-        for (int i = 0; i < this.inventory.getSize(); ++i) {
-            final ItemStack item = this.inventory.getItem(i);
-            if (item != null) {
-                items.put(i, item);
-            }
-        }
-        return items;
-    }
-    
-    @Override
-    public void open(final Player player) {
-        player.openInventory(this.inventory);
-    }
-    
-    @Override
-    public int getSize() {
-        return this.inventory.getSize();
-    }
-    
-    @Override
-    public String getTitle() {
-        return this.name;
-    }
+public class PhasmatosStableInventory implements PhasmatosInventory {
+  private final Inventory inventory;
+  
+  private final String name;
+  
+  public void open(Player paramPlayer) {}
+  
+  public PhasmatosInventory addItem(int paramInt, ItemStack paramItemStack) {
+    this.inventory.setItem(paramInt, paramItemStack);
+    return this;
+  }
+  
+  public PhasmatosStableInventory(String paramString, int paramInt) {
+    this.inventory = Bukkit.createInventory(null, paramInt, paramString);
+    this.name = paramString;
+  }
+  
+  public Map<Integer, ItemStack> getItems() {
+    HashMap<Object, Object> hashMap = new HashMap<>();
+    byte b = 0;
+    while (b < this.inventory.getSize()) {
+      ItemStack itemStack = this.inventory.getItem(b);
+      if (itemStack == null) {
+        false;
+      } else {
+      
+      } 
+      b++;
+      false;
+    } 
+    return (Map)hashMap;
+  }
+  
+  public String getTitle() {
+    return this.name;
+  }
+  
+  public int getSize() {
+    return this.inventory.getSize();
+  }
 }

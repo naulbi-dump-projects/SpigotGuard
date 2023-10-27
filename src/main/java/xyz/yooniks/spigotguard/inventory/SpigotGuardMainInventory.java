@@ -1,10 +1,9 @@
 package xyz.yooniks.spigotguard.inventory;
 
-import xyz.yooniks.spigotguard.api.inventory.*;
+import xyz.yooniks.spigotguard.api.inventory.PhasmatosClickableStableInventory;
 
-public class SpigotGuardMainInventory extends PhasmatosClickableStableInventory
-{
-    public SpigotGuardMainInventory(final String title, final int size) {
-        super(title, size);
-    }
+public class SpigotGuardMainInventory extends PhasmatosClickableStableInventory {
+  public SpigotGuardMainInventory(String paramString, int paramInt) {
+    super(paramString, paramInt);
+  }
 }

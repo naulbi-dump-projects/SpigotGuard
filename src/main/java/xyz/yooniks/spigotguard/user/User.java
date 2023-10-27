@@ -1,97 +1,107 @@
 package xyz.yooniks.spigotguard.user;
 
-import java.io.*;
-import xyz.yooniks.spigotguard.event.*;
-import xyz.yooniks.spigotguard.network.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import xyz.yooniks.spigotguard.event.ExploitDetails;
+import xyz.yooniks.spigotguard.network.PacketInjector;
 
-public class User implements Serializable
-{
-    private final UUID id;
-    private final Map<String, Integer> packetsSent;
-    private final List<ExploitDetails> attempts;
-    private String name;
-    private String ip;
-    private PacketInjector packetInjector;
-    private long lastJoin;
-    private boolean injectedPacketDecoder;
-    
-    public User(final String name, final String ip, final UUID id) {
-        this.attempts = new ArrayList<ExploitDetails>();
-        this.injectedPacketDecoder = false;
-        this.name = name;
-        this.ip = ip;
-        this.id = id;
-        this.packetsSent = new HashMap<String, Integer>();
-    }
-    
-    public boolean isInjectedPacketDecoder() {
-        return this.injectedPacketDecoder;
-    }
-    
-    public void setInjectedPacketDecoder(final boolean injectedPacketDecoder) {
-        this.injectedPacketDecoder = injectedPacketDecoder;
-    }
-    
-    public String getIp() {
-        return this.ip;
-    }
-    
-    public void setIp(final String ip) {
-        this.ip = ip;
-    }
-    
-    public UUID getId() {
-        return this.id;
-    }
-    
-    public String getName() {
-        return this.name;
-    }
-    
-    public void setName(final String name) {
-        this.name = name;
-    }
-    
-    public PacketInjector getPacketInjector() {
-        return this.packetInjector;
-    }
-    
-    public void setPacketInjector(final PacketInjector packetInjector) {
-        this.packetInjector = packetInjector;
-    }
-    
-    public int increaseAndGetReceivedPackets(final String packet) {
-        final int currentPackets = this.packetsSent.getOrDefault(packet, 0);
-        this.packetsSent.put(packet, currentPackets + 1);
-        return currentPackets;
-    }
-    
-    public void addAttempts(final List<ExploitDetails> attempts) {
-        this.attempts.addAll(attempts);
-    }
-    
-    public Map<String, Integer> getPacketsSent() {
-        return this.packetsSent;
-    }
-    
-    public List<ExploitDetails> getAttempts() {
-        return new ArrayList<ExploitDetails>(this.attempts);
-    }
-    
-    public void sortAttempts() {
-        this.attempts.sort(Comparator.comparing(o -> new Date(o.getTime())));
-    }
-    
-    public long getLastJoin() {
-        return this.lastJoin;
-    }
-    
-    public void setLastJoin(final long lastJoin) {
-        this.lastJoin = lastJoin;
-    }
-    
-    public void cleanup() {
-        this.packetsSent.clear();
-    }
+public class User implements Serializable {
+  private final List<ExploitDetails> attempts = new ArrayList<>();
+  
+  private final Map<String, Integer> packetsSent;
+  
+  private PacketInjector packetInjector;
+  
+  private String ip;
+  
+  private String name;
+  
+  private boolean injectedPacketDecoder = false;
+  
+  private final UUID id;
+  
+  private long lastJoin;
+  
+  public PacketInjector getPacketInjector() {
+    return this.packetInjector;
+  }
+  
+  public UUID getId() {
+    return this.id;
+  }
+  
+  public int increaseAndGetReceivedPackets(String paramString) {
+    return ((Integer)this.packetsSent.getOrDefault(paramString, Integer.valueOf(0))).intValue();
+  }
+  
+  public void setInjectedPacketDecoder(boolean paramBoolean) {
+    this.injectedPacketDecoder = paramBoolean;
+  }
+  
+  public void setPacketInjector(PacketInjector paramPacketInjector) {
+    this.packetInjector = paramPacketInjector;
+  }
+  
+  public void setLastJoin(long paramLong) {
+    this.lastJoin = paramLong;
+  }
+  
+  public String getIp() {
+    return this.ip;
+  }
+  
+  public void sortAttempts() {
+    this.attempts.sort(Comparator.comparing(User::lambda$sortAttempts$0));
+  }
+  
+  public String getName() {
+    return this.name;
+  }
+  
+  public long getLastJoin() {
+    return this.lastJoin;
+  }
+  
+  public void addAttempts(List<ExploitDetails> paramList) {}
+  
+  public void setName(String paramString) {
+    this.name = paramString;
+  }
+  
+  public void cleanup() {
+    this.packetsSent.clear();
+  }
+  
+  public boolean isInjectedPacketDecoder() {
+    return this.injectedPacketDecoder;
+  }
+  
+  public void setIp(String paramString) {
+    this.ip = paramString;
+  }
+  
+  public User(String paramString1, String paramString2, UUID paramUUID) {
+    this.name = paramString1;
+    this.ip = paramString2;
+    this.id = paramUUID;
+    this.packetsSent = new HashMap<>();
+  }
+  
+  public List<ExploitDetails> getAttempts() {
+    return new ArrayList<>(this.attempts);
+  }
+  
+  private static Date lambda$sortAttempts$0(ExploitDetails paramExploitDetails) {
+    return new Date(paramExploitDetails.getTime());
+  }
+  
+  public Map<String, Integer> getPacketsSent() {
+    return this.packetsSent;
+  }
 }

@@ -1,12 +1,15 @@
 name: "SpigotGuard"
-version: "5.7 BULLET-PROOF"
+version: "6.4.2 BULLET-PROOF"
 main: "xyz.yooniks.spigotguard.SpigotGuardPlugin"
 authors: ["yooniks"]
 author: "yooniks"
-description: "Advanced protection against crashers and exploits for minecraft servers: https://minemen.com/resources/175/"
-website: "https://minemen.com/resources/175/"
+description: "Advanced protection against crashers and exploits for minecraft servers: https://mc-protection.eu"
+website: "https://mc-protection.eu"
+loadbefore:
+  - ViaVersion
 softdepend:
   - ViaVersion
+  - FastAsyncWorldEdit
 commands:
   spigotguard:
     aliases:

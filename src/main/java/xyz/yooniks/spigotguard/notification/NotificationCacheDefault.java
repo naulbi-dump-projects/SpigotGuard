@@ -1,30 +1,23 @@
 package xyz.yooniks.spigotguard.notification;
 
-import java.util.*;
-import xyz.yooniks.spigotguard.event.*;
-import com.google.common.cache.*;
-import java.util.concurrent.*;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import xyz.yooniks.spigotguard.event.ExploitDetails;
 
-public class NotificationCacheDefault implements NotificationCache
-{
-    private final Cache<UUID, ExploitDetails> hackers;
-    
-    public NotificationCacheDefault() {
-        this.hackers = (Cache<UUID, ExploitDetails>)CacheBuilder.newBuilder().expireAfterWrite(10L, TimeUnit.MINUTES).build();
-    }
-    
-    @Override
-    public ExploitDetails findCache(final UUID uuid) {
-        return (ExploitDetails)this.hackers.getIfPresent((Object)uuid);
-    }
-    
-    @Override
-    public void addCache(final UUID uuid, final ExploitDetails details) {
-        this.hackers.put((Object)uuid, (Object)details);
-    }
-    
-    @Override
-    public void removeCache(final UUID uuid) {
-        this.hackers.invalidate((Object)uuid);
-    }
+public class NotificationCacheDefault implements NotificationCache {
+  private final Cache<UUID, ExploitDetails> hackers = CacheBuilder.newBuilder().expireAfterWrite(10L, TimeUnit.MINUTES).build();
+  
+  public void removeCache(UUID paramUUID) {
+    this.hackers.invalidate(paramUUID);
+  }
+  
+  public void addCache(UUID paramUUID, ExploitDetails paramExploitDetails) {
+    this.hackers.put(paramUUID, paramExploitDetails);
+  }
+  
+  public ExploitDetails findCache(UUID paramUUID) {
+    return (ExploitDetails)this.hackers.getIfPresent(paramUUID);
+  }
 }

@@ -1,14 +1,13 @@
 package xyz.yooniks.spigotguard.api.inventory;
 
-import java.util.*;
+import java.util.List;
 
-public interface PhasmatosInventoryAPI
-{
-    void addInventory(final PhasmatosInventory p0);
-    
-    List<PhasmatosInventory> getInventories();
-    
-    PhasmatosInventory findByTitle(final String p0);
-    
-    PhasmatosInventory findByTitleAndSize(final String p0, final int p1);
+public interface PhasmatosInventoryAPI {
+  PhasmatosInventory findByTitleAndSize(String paramString, int paramInt);
+  
+  PhasmatosInventory findByTitle(String paramString);
+  
+  void addInventory(PhasmatosInventory paramPhasmatosInventory);
+  
+  List<PhasmatosInventory> getInventories();
 }

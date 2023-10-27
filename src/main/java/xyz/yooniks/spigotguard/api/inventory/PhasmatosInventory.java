@@ -1,18 +1,17 @@
 package xyz.yooniks.spigotguard.api.inventory;
 
-import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
-import java.util.*;
+import java.util.Map;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public interface PhasmatosInventory
-{
-    void open(final Player p0);
-    
-    PhasmatosInventory addItem(final int p0, final ItemStack p1);
-    
-    Map<Integer, ItemStack> getItems();
-    
-    String getTitle();
-    
-    int getSize();
+public interface PhasmatosInventory {
+  PhasmatosInventory addItem(int paramInt, ItemStack paramItemStack);
+  
+  Map<Integer, ItemStack> getItems();
+  
+  String getTitle();
+  
+  void open(Player paramPlayer);
+  
+  int getSize();
 }

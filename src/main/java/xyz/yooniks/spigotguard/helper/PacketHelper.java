@@ -1,51 +1,39 @@
 package xyz.yooniks.spigotguard.helper;
 
-import net.minecraft.server.v1_8_R3.*;
-import java.io.*;
+import java.io.IOException;
+import net.minecraft.server.v1_8_R3.PacketDataSerializer;
 
-public class PacketHelper
-{
-    public static int checkHandshake(final PacketDataSerializer buf) throws IOException {
-        if (buf.readableBytes() > 300 || buf.readableBytes() < 5) {
-            throw new IOException("Invalid Handshake packet 1");
-        }
-        final int packetId = buf.e();
-        if (!buf.isReadable()) {
-            throw new IOException("Invalid Handshake packet 2");
-        }
-        final int protocolId = buf.e();
-        if (!buf.isReadable() || protocolId <= 0) {
-            throw new IOException("Invalid Handshake packet 3");
-        }
-        final byte[] host = new byte[buf.e()];
-        buf.readBytes(host);
-        if (buf.readableBytes() <= 2) {
-            throw new IOException("Invalid Handshake packet 4");
-        }
-        final int port = buf.readUnsignedShort();
-        if (!buf.isReadable() || port <= 0 || buf.readableBytes() > 1) {
-            throw new IOException("Invalid Handshake packet 5");
-        }
-        final int stateId = buf.e();
-        if (buf.isReadable() || (stateId != 1 && stateId != 2)) {
-            throw new IOException("Invalid Handshake packet 6");
-        }
-        return stateId;
-    }
-    
-    public static void checkLogin(final PacketDataSerializer buf) throws IOException {
-        if (buf.readableBytes() > 40 || buf.readableBytes() < 5) {
-            throw new IOException("Too long LoginStart");
-        }
-        final int packetId = buf.e();
-        if (!buf.isReadable() || packetId != 0) {
-            throw new IOException("Invalid LoginStart packet id");
-        }
-        final byte[] bytes = new byte[buf.e()];
-        buf.readBytes(bytes);
-        final String nick = new String(bytes);
-        if (buf.isReadable() || nick.length() > 16 || nick.length() <= 2) {
-            throw new IOException("Invalid LoginStart packet");
-        }
-    }
+public class PacketHelper {
+  public static int checkHandshake(PacketDataSerializer paramPacketDataSerializer) throws IOException {
+    if (paramPacketDataSerializer.readableBytes() > 300 || paramPacketDataSerializer.readableBytes() < 5)
+      throw new IOException("Invalid Handshake packet 1"); 
+    int i = paramPacketDataSerializer.e();
+    if (!paramPacketDataSerializer.isReadable())
+      throw new IOException("Invalid Handshake packet 2"); 
+    int j = paramPacketDataSerializer.e();
+    if (!paramPacketDataSerializer.isReadable() || j <= 0)
+      throw new IOException("Invalid Handshake packet 3"); 
+    byte[] arrayOfByte = new byte[paramPacketDataSerializer.e()];
+    if (paramPacketDataSerializer.readableBytes() <= 2)
+      throw new IOException("Invalid Handshake packet 4"); 
+    int k = paramPacketDataSerializer.readUnsignedShort();
+    if (!paramPacketDataSerializer.isReadable() || k <= 0 || paramPacketDataSerializer.readableBytes() > 1)
+      throw new IOException("Invalid Handshake packet 5"); 
+    int m = paramPacketDataSerializer.e();
+    if (paramPacketDataSerializer.isReadable() || (m != 1 && m != 2))
+      throw new IOException("Invalid Handshake packet 6"); 
+    return m;
+  }
+  
+  public static void checkLogin(PacketDataSerializer paramPacketDataSerializer) throws IOException {
+    if (paramPacketDataSerializer.readableBytes() > 40 || paramPacketDataSerializer.readableBytes() < 5)
+      throw new IOException("Too long LoginStart"); 
+    int i = paramPacketDataSerializer.e();
+    if (!paramPacketDataSerializer.isReadable() || i != 0)
+      throw new IOException("Invalid LoginStart packet id"); 
+    byte[] arrayOfByte = new byte[paramPacketDataSerializer.e()];
+    String str = new String(arrayOfByte);
+    if (paramPacketDataSerializer.isReadable() || str.length() > 16 || str.length() <= 2)
+      throw new IOException("Invalid LoginStart packet"); 
+  }
 }

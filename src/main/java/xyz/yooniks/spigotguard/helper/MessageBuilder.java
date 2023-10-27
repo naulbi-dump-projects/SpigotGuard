@@ -1,41 +1,39 @@
 package xyz.yooniks.spigotguard.helper;
 
-import org.apache.commons.lang.*;
-import org.bukkit.*;
-import xyz.yooniks.spigotguard.config.*;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
+import xyz.yooniks.spigotguard.config.Settings;
 
-public class MessageBuilder
-{
-    private String text;
-    
-    public MessageBuilder(final String text) {
-        this.text = text;
-    }
-    
-    public static MessageBuilder newBuilder(final String text) {
-        return new MessageBuilder(text);
-    }
-    
-    public MessageBuilder withField(final String field, final String value) {
-        this.text = StringUtils.replace(this.text, field, value);
-        return this;
-    }
-    
-    public MessageBuilder coloured() {
-        this.text = ChatColor.translateAlternateColorCodes('&', this.text);
-        return this.withField(">>", "»");
-    }
-    
-    public MessageBuilder stripped() {
-        return this.withField("%nl%", "\n");
-    }
-    
-    public MessageBuilder prefix() {
-        return this.withField("{PREFIX}", Settings.IMP.MESSAGES.PREFIX);
-    }
-    
-    @Override
-    public String toString() {
-        return this.text;
-    }
+public class MessageBuilder {
+  private String text;
+  
+  public static MessageBuilder newBuilder(String paramString) {
+    return new MessageBuilder(paramString);
+  }
+  
+  public MessageBuilder stripped() {
+    return withField("%nl%", "\n");
+  }
+  
+  public MessageBuilder(String paramString) {
+    this.text = paramString;
+  }
+  
+  public MessageBuilder coloured() {
+    this.text = ChatColor.translateAlternateColorCodes('&', this.text);
+    return withField(">>", "Â»");
+  }
+  
+  public MessageBuilder withField(String paramString1, String paramString2) {
+    this.text = StringUtils.replace(this.text, paramString1, paramString2);
+    return this;
+  }
+  
+  public MessageBuilder prefix() {
+    return withField("{PREFIX}", Settings.IMP.MESSAGES.PREFIX);
+  }
+  
+  public String toString() {
+    return this.text;
+  }
 }

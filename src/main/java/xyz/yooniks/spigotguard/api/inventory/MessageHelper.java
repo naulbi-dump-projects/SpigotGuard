@@ -1,20 +1,18 @@
 package xyz.yooniks.spigotguard.api.inventory;
 
-import org.bukkit.*;
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.bukkit.ChatColor;
 
-public final class MessageHelper
-{
-    private MessageHelper() {
-    }
-    
-    public static String colored(final String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
-    }
-    
-    public static List<String> colored(final List<String> texts) {
-        return texts.stream().map((Function<? super Object, ?>)MessageHelper::colored).collect((Collector<? super Object, ?, List<String>>)Collectors.toList());
-    }
+public final class MessageHelper {
+  private MessageHelper() {
+  }
+
+  public static String colored(String var0) {
+    return ChatColor.translateAlternateColorCodes('&', var0);
+  }
+
+  public static List colored(List var0) {
+    return (List)var0.stream().map(MessageHelper::colored).collect(Collectors.toList());
+  }
 }

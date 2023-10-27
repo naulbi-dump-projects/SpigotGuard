@@ -1,37 +1,38 @@
 package xyz.yooniks.spigotguard.user;
 
-import org.bukkit.entity.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import org.bukkit.entity.Player;
 
-public class UserManager
-{
-    private final Map<UUID, User> userMap;
-    
-    public UserManager() {
-        this.userMap = new HashMap<UUID, User>();
-    }
-    
-    public User findOrCreate(final Player player) {
-        User user = this.userMap.get(player.getUniqueId());
-        if (user == null) {
-            this.userMap.put(player.getUniqueId(), user = new User(player.getName(), player.getAddress().getAddress().getHostAddress(), player.getUniqueId()));
-        }
-        return user;
-    }
-    
-    public User findById(final UUID id) {
-        return this.userMap.get(id);
-    }
-    
-    public User findByName(final String name) {
-        return this.getUsers().stream().filter(user -> user.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
-    }
-    
-    public void addUser(final User user) {
-        this.userMap.put(user.getId(), user);
-    }
-    
-    public List<User> getUsers() {
-        return new ArrayList<User>(this.userMap.values());
-    }
+public class UserManager {
+  private final Map<UUID, User> userMap = new HashMap<>();
+  
+  private static boolean lambda$findByName$0(String paramString, User paramUser) {
+    return Integer.valueOf(paramString.toUpperCase().hashCode()).equals(Integer.valueOf(paramUser.getName().toUpperCase().hashCode()));
+  }
+  
+  public User findById(UUID paramUUID) {
+    return this.userMap.get(paramUUID);
+  }
+  
+  public List<User> getUsers() {
+    return new ArrayList<>(this.userMap.values());
+  }
+  
+  public User findByName(String paramString) {
+    return getUsers().stream().filter(paramString::lambda$findByName$0).findFirst().orElse(null);
+  }
+  
+  public User findOrCreate(Player paramPlayer) {
+    User user = this.userMap.get(paramPlayer.getUniqueId());
+    if (user == null);
+    return user;
+  }
+  
+  public void addUser(User paramUser) {}
+  
+  public void removeUser(UUID paramUUID) {}
 }

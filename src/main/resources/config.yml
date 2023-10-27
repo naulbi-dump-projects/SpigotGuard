@@ -24,7 +24,7 @@ packet-limitter:
     #PacketPlayInPositionLook_SimilarPosition:
     #  cancel-only: false
     #  limit: 3
-  #Packet name
+    #Packet name
     PacketPlayInWindowClick:
       #Packet limit
       limit: 170
@@ -46,7 +46,7 @@ packet-limitter:
       limit: 350
       cancel-only: true
     PacketPlayInPositionLook:
-      limit: 180
+      limit: 600
       cancel-only: false
     PacketPlayInArmAnimation:
       limit: 350
@@ -71,4 +71,10 @@ packet-limitter:
       cancel-only: true
     PacketPlayInVehicleMove_Invalid_v4:
       limit: 5
+      cancel-only: false
+    PacketPlayInPosition_Invalid_v1:
+      limit: 5
+      cancel-only: false
+    PacketPlayInPosition_Invalid_v2:
+      limit: 7
       cancel-only: false

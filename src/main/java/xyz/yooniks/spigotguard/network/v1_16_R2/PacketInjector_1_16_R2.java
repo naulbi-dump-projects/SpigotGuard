@@ -1,49 +1,53 @@
 package xyz.yooniks.spigotguard.network.v1_16_R2;
 
-import org.bukkit.entity.*;
-import org.bukkit.craftbukkit.v1_16_R2.entity.*;
-import xyz.yooniks.spigotguard.user.*;
-import io.netty.channel.*;
-import java.util.logging.*;
-import xyz.yooniks.spigotguard.logger.*;
-import org.bukkit.*;
-import xyz.yooniks.spigotguard.*;
-import org.bukkit.plugin.*;
-import xyz.yooniks.spigotguard.network.*;
+import io.netty.channel.Channel;
+import java.util.logging.Level;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import xyz.yooniks.spigotguard.SpigotGuardPlugin;
+import xyz.yooniks.spigotguard.logger.SpigotGuardLogger;
+import xyz.yooniks.spigotguard.network.PacketDecoder;
+import xyz.yooniks.spigotguard.network.PacketInjector;
+import xyz.yooniks.spigotguard.user.User;
 
-public class PacketInjector_1_16_R2 extends PacketInjector
-{
-    private final Channel channel;
-    
-    public PacketInjector_1_16_R2(final Player player) {
-        super(player);
-        this.channel = ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel;
+public class PacketInjector_1_16_R2 extends PacketInjector {
+  private final Channel channel;
+
+  public PacketInjector_1_16_R2(Player var1) {
+    super(var1);
+    this.channel = ((CraftPlayer)var1).getHandle().playerConnection.networkManager.channel;
+  }
+
+  public void uninjectListener() {
+    if (this.channel.pipeline().get("SpigotGuard_" + this.player.getName()) != null) {
+      this.channel.pipeline().remove("SpigotGuard_" + this.player.getName());
     }
-    
-    @Override
-    public void injectListener(final User user) {
-        final PacketDecoder packetDecoder = new PacketDecoder_1_16_R2(this, user);
-        try {
-            this.channel.pipeline().addAfter("decoder", "SpigotGuard_" + this.player.getName(), (ChannelHandler)packetDecoder);
-        }
-        catch (Throwable ex) {
-            SpigotGuardLogger.log(Level.WARNING, "Could not inject packetListener for {0}, trying again in 1.5 sec ({1})", this.player.getName(), ex.getMessage());
-            final ChannelHandler channelHandler;
-            Bukkit.getScheduler().runTaskLaterAsynchronously((Plugin)SpigotGuardPlugin.getInstance(), () -> {
-                try {
-                    this.channel.pipeline().addAfter("decoder", "SpigotGuard_" + this.player.getName(), channelHandler);
-                }
-                catch (Throwable ex2) {
-                    SpigotGuardLogger.log(Level.WARNING, "Could not inject packetListener for {0}, even after 1.5 sec, reason: {1}", this.player.getName(), ex2.getMessage());
-                }
-            }, 30L);
-        }
+
+  }
+
+  private void lambda$injectListener$0(PacketDecoder var1) {
+    try {
+      this.channel.pipeline().addAfter("decoder", "SpigotGuard_" + this.player.getName(), var1);
+    } catch (Throwable var3) {
+      SpigotGuardLogger.log(Level.WARNING, "Could not inject packetListener for {0}, even after 1.5 sec, reason: {1}", new Object[]{this.player.getName(), var3.getMessage()});
+      return;
     }
-    
-    @Override
-    public void uninjectListener() {
-        if (this.channel.pipeline().get("SpigotGuard_" + this.player.getName()) != null) {
-            this.channel.pipeline().remove("SpigotGuard_" + this.player.getName());
-        }
+
+    boolean var10001 = false;
+  }
+
+  public void injectListener(User var1) {
+    PacketDecoder_1_16_R2 var2 = new PacketDecoder_1_16_R2(this, var1);
+
+    try {
+      this.channel.pipeline().addAfter("decoder", "SpigotGuard_" + this.player.getName(), var2);
+    } catch (Throwable var4) {
+      SpigotGuardLogger.log(Level.WARNING, "Could not inject packetListener for {0}, trying again in 1.5 sec ({1})", new Object[]{this.player.getName(), var4.getMessage()});
+      Bukkit.getScheduler().runTaskLaterAsynchronously(SpigotGuardPlugin.getInstance(), this::lambda$injectListener$0, 30L);
+      return;
     }
+
+    boolean var10001 = false;
+  }
 }

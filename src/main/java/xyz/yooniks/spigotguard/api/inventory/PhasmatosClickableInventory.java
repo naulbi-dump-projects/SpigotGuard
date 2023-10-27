@@ -1,12 +1,11 @@
 package xyz.yooniks.spigotguard.api.inventory;
 
-import java.util.function.*;
-import org.bukkit.entity.*;
-import org.bukkit.event.inventory.*;
+import java.util.function.Consumer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-public interface PhasmatosClickableInventory
-{
-    PhasmatosClickableInventory addItemAction(final int p0, final Consumer<Player> p1);
-    
-    void onClick(final InventoryClickEvent p0);
+public interface PhasmatosClickableInventory {
+  void onClick(InventoryClickEvent paramInventoryClickEvent);
+  
+  PhasmatosClickableInventory addItemAction(int paramInt, Consumer<Player> paramConsumer);
 }

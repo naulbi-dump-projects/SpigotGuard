@@ -1,7 +1,3 @@
 package xyz.yooniks.spigotguard.helper;
 
-public final class PacketDecoderHelper
-{
-    private PacketDecoderHelper() {
-    }
-}
+public final class PacketDecoderHelper {}
